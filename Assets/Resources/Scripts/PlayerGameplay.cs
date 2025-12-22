@@ -9,12 +9,15 @@ public class PlayerGameplay : MonoBehaviour
 
     public bool isAbleToShoot = true;
     public bool isSprayAllowed = false;
+    public string shootingType = "standard";
     public float shootingDelay = 0.1f;
     public float shootingTimer = 0.0f;
     public float reloadTime = 3.0f;
     public float reloadTimer = 0.0f;
     public int maxAmmo = 30;
     public int currAmmo = 30;
+    public float explosionRadius = 9;
+    public float explosionForce = 500f;
 
     public InputActionAsset InputActions;
     public TextMeshProUGUI AmmoCountField;
@@ -61,12 +64,25 @@ public class PlayerGameplay : MonoBehaviour
     {
         shootingTimer = 0;
         currAmmo -= 1;
-
-        RaycastHit hit;
-        if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
+        
+        if (shootingType == "standard")
         {
-            var expl = Instantiate(ExplosionObject, hit.point, Quaternion.Euler(0, 0, 0));
-            expl.SetActive(true);
+            RaycastHit hit;
+            if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
+            {
+                Debug.Log(hit.collider.ToString());
+            }
+        }
+        if (shootingType == "rocket")
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
+            {
+                ExplosionObject.GetComponent<Explosion>().radius = explosionRadius;
+                ExplosionObject.GetComponent<Explosion>().force = explosionForce;
+                var expl = Instantiate(ExplosionObject, hit.point, Quaternion.Euler(0, 0, 0));
+                expl.SetActive(true);
+            }
         }
     }
 

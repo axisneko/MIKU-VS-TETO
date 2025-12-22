@@ -57,6 +57,8 @@ public class Explosion : MonoBehaviour
     {
         if (effectsPrefab != null)
         {
+            var scale = radius / 3f;
+            effectsPrefab.transform.localScale = new Vector3(scale, scale, scale);
             GameObject effect = Instantiate(effectsPrefab, transform.position, Quaternion.identity);
             Destroy(effect, effectsDisplayTime);
         }
