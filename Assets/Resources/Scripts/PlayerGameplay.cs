@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerGameplay : MonoBehaviour
 {
@@ -19,23 +20,33 @@ public class PlayerGameplay : MonoBehaviour
     public float explosionRadius = 9;
     public float explosionForce = 500f;
 
+    public int itemScroll = 0;
+
     public InputActionAsset InputActions;
     public TextMeshProUGUI AmmoCountField;
     public TextMeshProUGUI ReloadTimerField;
+    public TextMeshProUGUI CurrentWeaponField;
     public GameObject MainCameraObject;
     public GameObject ExplosionObject;
 
     private InputAction m_attackAction;
     private InputAction m_reloadAction;
+    private InputAction m_mouseScroll;
 
     private void Awake()
     {
         m_attackAction = InputSystem.actions.FindAction("Attack");
         m_reloadAction = InputSystem.actions.FindAction("WeaponReload");
+        m_mouseScroll = InputSystem.actions.FindAction("ItemScroll");
     }
 
     private void Update()
     {
+        itemScroll = m_mouseScroll.ReadValue<Vector2>().y.ConvertTo<int>();
+        Debug.Log(itemScroll);
+
+        CurrentWeaponField.text = GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot].name;
+
         if (currAmmo > 0 && reloadTimer <= 0 && isAbleToShoot && shootingTimer >= shootingDelay)
         {
             if (isSprayAllowed && m_attackAction.phase.ToString() == "Performed")
@@ -55,6 +66,7 @@ public class PlayerGameplay : MonoBehaviour
             }
         }
 
+        CheckItemScroll();
         UpdateShootingTimer(Time.deltaTime);
         UpdateReloadTimer(Time.deltaTime);
         UpdateUI();
@@ -64,7 +76,12 @@ public class PlayerGameplay : MonoBehaviour
     {
         shootingTimer = 0;
         currAmmo -= 1;
-        
+        if (GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot] is WeaponItem tempWeapon)
+        {
+            tempWeapon.currAmmo = currAmmo;
+        }
+
+
         if (shootingType == "standard")
         {
             RaycastHit hit;
@@ -109,6 +126,15 @@ public class PlayerGameplay : MonoBehaviour
                 currAmmo = maxAmmo;
                 ReloadTimerField.text = "";
             }
+        }
+    }
+
+    void CheckItemScroll()
+    {
+        if (itemScroll < 0) {
+            GetComponent<PlayerInventory>().changeSlotScroll(1);
+        }if (itemScroll > 0) {
+            GetComponent<PlayerInventory>().changeSlotScroll(-1);
         }
     }
 

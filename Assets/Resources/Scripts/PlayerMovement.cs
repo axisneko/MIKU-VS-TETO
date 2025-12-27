@@ -29,7 +29,7 @@ public class playerMovement : MonoBehaviour
     public float AirMultiplier = 0f;
     public float GroundDrag = 5;
     public float gravityForce = -30f;
-    public float verticalVelocity = 0;
+    public Vector3 velocity;
 
     public bool grounded;
     public LayerMask groundLayer;
@@ -41,6 +41,7 @@ public class playerMovement : MonoBehaviour
     { 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        velocity = new Vector3(0, 0, 0);
     }
 
     private void OnEnable()
@@ -70,10 +71,10 @@ public class playerMovement : MonoBehaviour
         m_moveAmt = m_moveAction.ReadValue<Vector2>();
         m_lookAmt = m_lookAction.ReadValue<Vector2>();
 
-        grounded = Physics.CheckSphere(transform.position + new Vector3(0, 0.26f, 0), 0.34f, groundLayer);
+        grounded = Physics.CheckSphere(transform.position + new Vector3(0, 0.255f, 0), 0.34f, groundLayer);
         //grounded = m_characterController.isGrounded;
 
-        if (m_jumpAction.WasPressedThisFrame())
+        if (m_jumpAction.phase.ToString() == "Performed")
         {
             Jump();
         }
@@ -125,7 +126,7 @@ public class playerMovement : MonoBehaviour
     public void Jump()
     {
         if (grounded) {
-            verticalVelocity = JumpSpeed;
+            velocity.y = JumpSpeed;
             //m_animator.SetTrigger("Jump");
         }
     }
@@ -162,7 +163,14 @@ public class playerMovement : MonoBehaviour
 
     private void DoGravity()
     {
-        verticalVelocity += gravityForce * Time.deltaTime;
-        m_characterController.Move(new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
+        if (grounded && velocity.y < 0)
+        {
+            velocity.y = 0f;
+        }
+        else
+        {
+            velocity.y += gravityForce * Time.deltaTime;
+        }
+        m_characterController.Move(velocity * Time.deltaTime);
     }
 }

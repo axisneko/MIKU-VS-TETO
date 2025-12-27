@@ -3,15 +3,15 @@ using UnityEngine;
 using System.Collections.Generic;
 public class PlayerInventory : MonoBehaviour
 {
-    public List<Item> items = new List<Item>();
-    public List<string> itemsStructure = new List<string>();
+    public Item[] items = new Item[5];
 
-    int currentSlot = 0;
+    public int currentSlot = 0;
     private void Awake()
     {
         getItem("ak47");
         equipWeapon();
-        Invoke("testfunction", 2f);
+        getItem("RoLa");
+        Invoke("testfunc", 40f);
     }
 
     void equipWeapon()
@@ -26,7 +26,7 @@ public class PlayerInventory : MonoBehaviour
             GetComponent<PlayerGameplay>().reloadTime = equippingStandardWeapon.reloadTime;
             GetComponent<PlayerGameplay>().reloadTimer = 0.0f;
             GetComponent<PlayerGameplay>().maxAmmo = equippingStandardWeapon.maxAmmo;
-            GetComponent<PlayerGameplay>().currAmmo = equippingStandardWeapon.maxAmmo;
+            GetComponent<PlayerGameplay>().currAmmo = equippingStandardWeapon.currAmmo;
             Invoke("LetGunShoot", 2f);
         }
         if (items[currentSlot] is RocketWeapon equippingRocketWeapon)
@@ -39,7 +39,7 @@ public class PlayerInventory : MonoBehaviour
             GetComponent<PlayerGameplay>().reloadTime = equippingRocketWeapon.reloadTime;
             GetComponent<PlayerGameplay>().reloadTimer = 0.0f;
             GetComponent<PlayerGameplay>().maxAmmo = equippingRocketWeapon.maxAmmo;
-            GetComponent<PlayerGameplay>().currAmmo = equippingRocketWeapon.maxAmmo;
+            GetComponent<PlayerGameplay>().currAmmo = equippingRocketWeapon.currAmmo;
             GetComponent<PlayerGameplay>().explosionRadius = equippingRocketWeapon.explosionRadius;
             GetComponent<PlayerGameplay>().explosionForce = equippingRocketWeapon.explosionForce;
             Invoke("LetGunShoot", 2f);
@@ -56,11 +56,12 @@ public class PlayerInventory : MonoBehaviour
                 _slot: 1,
                 _isSprayAllowed: true,
                 _isAbleToAim: false,
-                _shootingDelay: 0.3f,
+                _shootingDelay: 0.1f,
                 _reloadTime: 2f, 
-                _maxAmmo: 30
+                _maxAmmo: 30,
+                _currAmmo: 30
                 );
-            items.Add(temp);
+            changeSlot(temp, temp.slot);
         }
         if (name == "RoLa")
         {
@@ -73,11 +74,49 @@ public class PlayerInventory : MonoBehaviour
                 _shootingDelay: 0.3f,
                 _reloadTime: 5f,
                 _maxAmmo: 1,
+                _currAmmo: 1,
                 _explosionRadius: 15,
                 _explosionForce: 700
                 );
-            items.Add(temp);
+            changeSlot(temp, temp.slot);
         }
+        if (name == "MP5")
+        {
+            StandardWeapon temp = new StandardWeapon(
+                _name: "MP5-SD",
+                _icon: "",
+                _slot: 1,
+                _isSprayAllowed: true,
+                _isAbleToAim: false,
+                _shootingDelay: 0.05f,
+                _reloadTime: 1.5f,
+                _maxAmmo: 25,
+                _currAmmo: 25
+                );
+            changeSlot(temp, temp.slot);
+        }
+    }
+
+    void changeSlot(Item temp, int tempSlot)
+    {
+        if (tempSlot < 3)
+        {
+            items[tempSlot - 1] = temp;
+            currentSlot = tempSlot-1;
+            equipWeapon();
+        }
+    }
+
+    public void changeSlotScroll(int direction)
+    {
+        currentSlot += direction;
+        if (currentSlot > 1) {
+            currentSlot = 0;
+        }
+        if (currentSlot < 0) {
+            currentSlot = 1;
+        }
+        equipWeapon();
     }
 
     void LetGunShoot()
@@ -85,10 +124,8 @@ public class PlayerInventory : MonoBehaviour
         GetComponent<PlayerGameplay>().isAbleToShoot = true;
     }
 
-    void testfunction()
+    void testfunc()
     {
-        getItem("RoLa");
-        currentSlot = 1;
-        equipWeapon();
+        getItem("MP5");
     }
 }
