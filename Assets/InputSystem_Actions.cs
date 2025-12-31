@@ -190,6 +190,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ItemDrop"",
+                    ""type"": ""Button"",
+                    ""id"": ""c102f386-8c94-4a14-a485-ed2f712d4e2f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -619,6 +628,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ItemScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""79f74333-305c-4739-93da-abf48fbd5fbd"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemDrop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1248,6 +1268,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_WeaponReload = m_Player.FindAction("WeaponReload", throwIfNotFound: true);
         m_Player_WeaponAim = m_Player.FindAction("WeaponAim", throwIfNotFound: true);
         m_Player_ItemScroll = m_Player.FindAction("ItemScroll", throwIfNotFound: true);
+        m_Player_ItemDrop = m_Player.FindAction("ItemDrop", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1353,6 +1374,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_WeaponReload;
     private readonly InputAction m_Player_WeaponAim;
     private readonly InputAction m_Player_ItemScroll;
+    private readonly InputAction m_Player_ItemDrop;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1408,6 +1430,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ItemScroll".
         /// </summary>
         public InputAction @ItemScroll => m_Wrapper.m_Player_ItemScroll;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ItemDrop".
+        /// </summary>
+        public InputAction @ItemDrop => m_Wrapper.m_Player_ItemDrop;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1467,6 +1493,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ItemScroll.started += instance.OnItemScroll;
             @ItemScroll.performed += instance.OnItemScroll;
             @ItemScroll.canceled += instance.OnItemScroll;
+            @ItemDrop.started += instance.OnItemDrop;
+            @ItemDrop.performed += instance.OnItemDrop;
+            @ItemDrop.canceled += instance.OnItemDrop;
         }
 
         /// <summary>
@@ -1511,6 +1540,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ItemScroll.started -= instance.OnItemScroll;
             @ItemScroll.performed -= instance.OnItemScroll;
             @ItemScroll.canceled -= instance.OnItemScroll;
+            @ItemDrop.started -= instance.OnItemDrop;
+            @ItemDrop.performed -= instance.OnItemDrop;
+            @ItemDrop.canceled -= instance.OnItemDrop;
         }
 
         /// <summary>
@@ -1899,6 +1931,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnItemScroll(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ItemDrop" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnItemDrop(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

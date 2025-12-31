@@ -7,6 +7,7 @@ public class Item
     public string itemType;
     public string name;
     public string icon;
+    public string itemModelPath;
     public int slot;
 }
 
@@ -25,11 +26,12 @@ public class StandardWeapon : WeaponItem {
     {
         return $"StandardWeapon_{name}";
     }
-    public StandardWeapon(string _name, string _icon, int _slot, bool _isSprayAllowed, bool _isAbleToAim, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo)
+    public StandardWeapon(string _name, string _icon, string _itemModelPath, int _slot, bool _isSprayAllowed, bool _isAbleToAim, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo)
     {
         itemType = "weapon";
         name = _name;
         icon = _icon;
+        itemModelPath = _itemModelPath;
         slot = _slot;
 
         isSprayAllowed = _isSprayAllowed;
@@ -49,11 +51,12 @@ public class RocketWeapon : WeaponItem
     {
         return $"StandardWeapon_{name}";
     }
-    public RocketWeapon(string _name, string _icon, int _slot, bool _isSprayAllowed, bool _isAbleToAim, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo, float _explosionRadius, float _explosionForce)
+    public RocketWeapon(string _name, string _icon, int _slot, string _itemModelPath, bool _isSprayAllowed, bool _isAbleToAim, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo, float _explosionRadius, float _explosionForce)
     {
         itemType = "weapon";
         name = _name;
         icon = _icon;
+        itemModelPath = _itemModelPath;
         slot = _slot;
 
         isSprayAllowed = _isSprayAllowed;

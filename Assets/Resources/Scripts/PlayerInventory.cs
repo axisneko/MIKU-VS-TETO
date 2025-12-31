@@ -5,11 +5,12 @@ public class PlayerInventory : MonoBehaviour
 {
     public Item[] items = new Item[5];
 
+    public GameObject itemHolder;
+
     public int currentSlot = 0;
     private void Awake()
     {
         getItem("ak47");
-        equipWeapon();
         getItem("RoLa");
         Invoke("testfunc", 40f);
     }
@@ -27,6 +28,14 @@ public class PlayerInventory : MonoBehaviour
             GetComponent<PlayerGameplay>().reloadTimer = 0.0f;
             GetComponent<PlayerGameplay>().maxAmmo = equippingStandardWeapon.maxAmmo;
             GetComponent<PlayerGameplay>().currAmmo = equippingStandardWeapon.currAmmo;
+            foreach (Transform child in itemHolder.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            GameObject holdingItem = Instantiate(Resources.Load<GameObject>(equippingStandardWeapon.itemModelPath));
+            holdingItem.transform.parent = itemHolder.transform;
+            holdingItem.transform.position = itemHolder.transform.position;
+            holdingItem.transform.rotation = itemHolder.transform.rotation;
             Invoke("LetGunShoot", 2f);
         }
         if (items[currentSlot] is RocketWeapon equippingRocketWeapon)
@@ -42,6 +51,14 @@ public class PlayerInventory : MonoBehaviour
             GetComponent<PlayerGameplay>().currAmmo = equippingRocketWeapon.currAmmo;
             GetComponent<PlayerGameplay>().explosionRadius = equippingRocketWeapon.explosionRadius;
             GetComponent<PlayerGameplay>().explosionForce = equippingRocketWeapon.explosionForce;
+            foreach (Transform child in itemHolder.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            GameObject holdingItem = Instantiate(Resources.Load<GameObject>(equippingRocketWeapon.itemModelPath));
+            holdingItem.transform.parent = itemHolder.transform;
+            holdingItem.transform.position = itemHolder.transform.position;
+            holdingItem.transform.rotation = itemHolder.transform.rotation;
             Invoke("LetGunShoot", 2f);
         }
     }
@@ -53,6 +70,7 @@ public class PlayerInventory : MonoBehaviour
             StandardWeapon temp = new StandardWeapon(
                 _name: "AK-47",
                 _icon: "",
+                _itemModelPath: "Models/shotgun/Shotgun",
                 _slot: 1,
                 _isSprayAllowed: true,
                 _isAbleToAim: false,
@@ -68,6 +86,7 @@ public class PlayerInventory : MonoBehaviour
             RocketWeapon temp = new RocketWeapon(
                 _name: "Rocket Launcher",
                 _icon: "",
+                _itemModelPath: "Models/RoLa/Cube",
                 _slot: 2,
                 _isSprayAllowed: false,
                 _isAbleToAim: false,
@@ -85,6 +104,7 @@ public class PlayerInventory : MonoBehaviour
             StandardWeapon temp = new StandardWeapon(
                 _name: "MP5-SD",
                 _icon: "",
+                _itemModelPath: "Models/shotgun/Shotgun",
                 _slot: 1,
                 _isSprayAllowed: true,
                 _isAbleToAim: false,

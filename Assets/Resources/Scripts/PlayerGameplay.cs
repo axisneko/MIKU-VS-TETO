@@ -43,7 +43,6 @@ public class PlayerGameplay : MonoBehaviour
     private void Update()
     {
         itemScroll = m_mouseScroll.ReadValue<Vector2>().y.ConvertTo<int>();
-        Debug.Log(itemScroll);
 
         CurrentWeaponField.text = GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot].name;
 

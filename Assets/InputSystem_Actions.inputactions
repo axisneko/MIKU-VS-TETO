@@ -104,6 +104,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ItemDrop",
+                    "type": "Button",
+                    "id": "c102f386-8c94-4a14-a485-ed2f712d4e2f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -533,6 +542,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "ItemScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79f74333-305c-4739-93da-abf48fbd5fbd",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemDrop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
