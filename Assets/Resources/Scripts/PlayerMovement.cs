@@ -23,7 +23,7 @@ public class playerMovement : MonoBehaviour
     private Animator m_animator;
     private CharacterController m_characterController;
 
-    public float WalkSpeed = 5;
+    public float WalkSpeed = 8;
     public float MouseSensitivity = 0.3f;
     public float JumpSpeed = 5;
     public float AirMultiplier = 0f;

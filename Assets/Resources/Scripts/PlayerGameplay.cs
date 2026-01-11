@@ -11,6 +11,7 @@ public class PlayerGameplay : MonoBehaviour
     public bool isAbleToShoot = true;
     public bool isSprayAllowed = false;
     public string shootingType = "standard";
+    public int damage = 8;
     public float shootingDelay = 0.1f;
     public float shootingTimer = 0.0f;
     public float reloadTime = 3.0f;
@@ -32,12 +33,14 @@ public class PlayerGameplay : MonoBehaviour
     private InputAction m_attackAction;
     private InputAction m_reloadAction;
     private InputAction m_mouseScroll;
+    private InputAction m_spawnScarecrow;
 
     private void Awake()
     {
         m_attackAction = InputSystem.actions.FindAction("Attack");
         m_reloadAction = InputSystem.actions.FindAction("WeaponReload");
         m_mouseScroll = InputSystem.actions.FindAction("ItemScroll");
+        m_spawnScarecrow = InputSystem.actions.FindAction("SpawnScarecrow");
     }
 
     private void Update()
@@ -65,10 +68,25 @@ public class PlayerGameplay : MonoBehaviour
             }
         }
 
+        if (m_spawnScarecrow.WasPressedThisFrame())
+        {
+            SpawnScarecrow();
+        }
+
         CheckItemScroll();
         UpdateShootingTimer(Time.deltaTime);
         UpdateReloadTimer(Time.deltaTime);
         UpdateUI();
+    }
+
+    void SpawnScarecrow()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
+        {
+            var tempScarecrow = Instantiate(Resources.Load<GameObject>("Prefabs/scarecrow"));
+            tempScarecrow.transform.position = hit.point;
+        }
     }
 
     void Shoot()
@@ -87,6 +105,15 @@ public class PlayerGameplay : MonoBehaviour
             if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
             {
                 Debug.Log(hit.collider.ToString());
+
+                if (hit.collider.tag == "hitbox_body")
+                {
+                    hit.collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(damage);
+                }
+                if (hit.collider.tag == "hitbox_head")
+                {
+                    hit.collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(2 * damage);
+                }
             }
         }
         if (shootingType == "rocket")

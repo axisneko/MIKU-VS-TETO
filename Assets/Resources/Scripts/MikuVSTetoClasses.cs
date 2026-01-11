@@ -15,6 +15,7 @@ public class WeaponItem : Item
 {
     public bool isSprayAllowed;
     public bool isAbleToAim;
+    public int damage;
     public float shootingDelay;
     public float reloadTime;
     public int maxAmmo;
@@ -26,7 +27,7 @@ public class StandardWeapon : WeaponItem {
     {
         return $"StandardWeapon_{name}";
     }
-    public StandardWeapon(string _name, string _icon, string _itemModelPath, int _slot, bool _isSprayAllowed, bool _isAbleToAim, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo)
+    public StandardWeapon(string _name, string _icon, string _itemModelPath, int _slot, bool _isSprayAllowed, bool _isAbleToAim, int _damage, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo)
     {
         itemType = "weapon";
         name = _name;
@@ -36,6 +37,7 @@ public class StandardWeapon : WeaponItem {
 
         isSprayAllowed = _isSprayAllowed;
         isAbleToAim = _isAbleToAim;
+        damage = _damage;
         shootingDelay = _shootingDelay;
         reloadTime = _reloadTime;
         maxAmmo = _maxAmmo;
@@ -51,7 +53,7 @@ public class RocketWeapon : WeaponItem
     {
         return $"StandardWeapon_{name}";
     }
-    public RocketWeapon(string _name, string _icon, int _slot, string _itemModelPath, bool _isSprayAllowed, bool _isAbleToAim, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo, float _explosionRadius, float _explosionForce)
+    public RocketWeapon(string _name, string _icon, int _slot, string _itemModelPath, bool _isSprayAllowed, bool _isAbleToAim, int _damage, float _shootingDelay, float _reloadTime, int _maxAmmo, int _currAmmo, float _explosionRadius, float _explosionForce)
     {
         itemType = "weapon";
         name = _name;
@@ -61,6 +63,7 @@ public class RocketWeapon : WeaponItem
 
         isSprayAllowed = _isSprayAllowed;
         isAbleToAim = _isAbleToAim;
+        damage = _damage;
         shootingDelay = _shootingDelay;
         reloadTime = _reloadTime;
         maxAmmo = _maxAmmo;

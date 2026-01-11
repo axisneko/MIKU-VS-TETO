@@ -113,6 +113,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SpawnScarecrow",
+                    "type": "Button",
+                    "id": "7a9a4c6d-6318-47c2-8889-183b74a460a4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -496,7 +505,7 @@
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "WeaponReload",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -507,7 +516,7 @@
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "WeaponReload",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -518,7 +527,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "WeaponAim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -529,7 +538,7 @@
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "WeaponAim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -551,8 +560,19 @@
                     "path": "<Keyboard>/g",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "ItemDrop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "044a24a9-f4b2-4161-929d-fe8adec368ca",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SpawnScarecrow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
