@@ -1,6 +1,7 @@
 using NUnit.Framework;
-using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     public Item[] items = new Item[5];
@@ -19,7 +20,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (items[currentSlot] is StandardWeapon equippingStandardWeapon)
         {
-            GetComponent<PlayerGameplay>().isAbleToShoot = false;
+            GetComponent<PlayerGameplay>().isAbleToShoot = true;
             GetComponent<PlayerGameplay>().isSprayAllowed = equippingStandardWeapon.isSprayAllowed;
             GetComponent<PlayerGameplay>().shootingType = "standard";
             GetComponent<PlayerGameplay>().shootingDelay = equippingStandardWeapon.shootingDelay;
@@ -36,11 +37,11 @@ public class PlayerInventory : MonoBehaviour
             holdingItem.transform.parent = itemHolder.transform;
             holdingItem.transform.position = itemHolder.transform.position;
             holdingItem.transform.rotation = itemHolder.transform.rotation;
-            Invoke("LetGunShoot", 2f);
+            //Invoke("LetGunShoot", 2f);
         }
         if (items[currentSlot] is RocketWeapon equippingRocketWeapon)
         {
-            GetComponent<PlayerGameplay>().isAbleToShoot = false;
+            GetComponent<PlayerGameplay>().isAbleToShoot = true;
             GetComponent<PlayerGameplay>().isSprayAllowed = equippingRocketWeapon.isSprayAllowed;
             GetComponent<PlayerGameplay>().shootingType = "rocket";
             GetComponent<PlayerGameplay>().shootingDelay = equippingRocketWeapon.shootingDelay;
@@ -59,8 +60,9 @@ public class PlayerInventory : MonoBehaviour
             holdingItem.transform.parent = itemHolder.transform;
             holdingItem.transform.position = itemHolder.transform.position;
             holdingItem.transform.rotation = itemHolder.transform.rotation;
-            Invoke("LetGunShoot", 2f);
+            //Invoke("LetGunShoot", 2f);
         }
+        GetComponent<PlayerGameplay>().ReloadTimerField.text = "";
     }
 
     void getItem(string name) 

@@ -28,7 +28,6 @@ public class PlayerGameplay : MonoBehaviour
     public TextMeshProUGUI ReloadTimerField;
     public TextMeshProUGUI CurrentWeaponField;
     public GameObject MainCameraObject;
-    public GameObject ExplosionObject;
 
     private InputAction m_attackAction;
     private InputAction m_reloadAction;
@@ -118,14 +117,12 @@ public class PlayerGameplay : MonoBehaviour
         }
         if (shootingType == "rocket")
         {
-            RaycastHit hit;
-            if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
-            {
-                ExplosionObject.GetComponent<Explosion>().radius = explosionRadius;
-                ExplosionObject.GetComponent<Explosion>().force = explosionForce;
-                var expl = Instantiate(ExplosionObject, hit.point, Quaternion.Euler(0, 0, 0));
-                expl.SetActive(true);
-            }
+            var rocket = Instantiate(Resources.Load<GameObject>("Prefabs/RoLa Rocket"), MainCameraObject.transform.position + MainCameraObject.transform.forward*1.5f, Quaternion.Euler(0, 0, 0));
+            rocket.GetComponent<Explosion>().radius = explosionRadius;
+            rocket.GetComponent<Explosion>().force = explosionForce;
+            rocket.transform.rotation = MainCameraObject.transform.rotation;
+            rocket.SetActive(true);
+            
         }
     }
 

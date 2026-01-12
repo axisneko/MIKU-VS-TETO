@@ -3688,7 +3688,6 @@ MonoBehaviour:
   ReloadTimerField: {fileID: 654619123}
   CurrentWeaponField: {fileID: 1128822059}
   MainCameraObject: {fileID: 1823688464}
-  ExplosionObject: {fileID: 843621763}
 --- !u!114 &338059246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9591,57 +9590,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &843621763
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 843621764}
-  - component: {fileID: 843621765}
-  m_Layer: 0
-  m_Name: ExplosionObj
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &843621764
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843621763}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.25063, y: 0.93199, z: -0.65672}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &843621765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843621763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4767afd5c2392b4a94915d61a426ec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Explosion
-  radius: 9
-  force: 400
-  delay: 0
-  delayTimer: 0
-  explodeOnCollision: 0
-  effectsPrefab: {fileID: 1025285306637258, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
-  effectsDisplayTime: 2
 --- !u!1 &883833702
 GameObject:
   m_ObjectHideFlags: 0
@@ -44950,4 +44898,3 @@ SceneRoots:
   - {fileID: 1932641430}
   - {fileID: 2013410475}
   - {fileID: 338059239}
-  - {fileID: 843621764}

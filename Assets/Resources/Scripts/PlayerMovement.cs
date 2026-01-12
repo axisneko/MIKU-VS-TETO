@@ -72,6 +72,7 @@ public class playerMovement : MonoBehaviour
         m_lookAmt = m_lookAction.ReadValue<Vector2>();
 
         grounded = Physics.CheckSphere(transform.position + new Vector3(0, 0.255f, 0), 0.34f, groundLayer);
+        MouseSensitivity = MouseSensitivitySlider.value;
         //grounded = m_characterController.isGrounded;
 
         if (m_jumpAction.phase.ToString() == "Performed")
@@ -79,7 +80,6 @@ public class playerMovement : MonoBehaviour
             Jump();
         }
 
-        MouseSensitivity = MouseSensitivitySlider.value;
         //SpeedControl();
         DoGravity();
         Rotating();

@@ -34,7 +34,7 @@ public class Explosion : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (explodeOnCollision && enabled) 
+        if (explodeOnCollision && enabled)
         {
             DoExplosion();
             Destroy(gameObject);
@@ -64,7 +64,7 @@ public class Explosion : MonoBehaviour
     {
         if (effectsPrefab != null)
         {
-            var scale = radius / 2f;
+            var scale = radius / 20f;
             effectsPrefab.transform.localScale = new Vector3(scale, scale, scale);
             GameObject effect = Instantiate(effectsPrefab, transform.position, Quaternion.identity);
             Destroy(effect, effectsDisplayTime);
