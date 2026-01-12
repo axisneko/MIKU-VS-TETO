@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
@@ -50,6 +51,12 @@ public class Explosion : MonoBehaviour
             if (rigidbody != null) {
                 rigidbody.AddExplosionForce(force, transform.position, radius);
             }
+
+            if (collider.tag == "hitbox_body")
+            {
+                float damage = (radius-Vector3.Distance(transform.position, collider.transform.position))*force/radius/25;
+                collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(damage.ConvertTo<int>());
+            }
         }
     }
 
@@ -57,7 +64,7 @@ public class Explosion : MonoBehaviour
     {
         if (effectsPrefab != null)
         {
-            var scale = radius / 3f;
+            var scale = radius / 2f;
             effectsPrefab.transform.localScale = new Vector3(scale, scale, scale);
             GameObject effect = Instantiate(effectsPrefab, transform.position, Quaternion.identity);
             Destroy(effect, effectsDisplayTime);

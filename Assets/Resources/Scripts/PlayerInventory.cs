@@ -93,10 +93,10 @@ public class PlayerInventory : MonoBehaviour
                 _isAbleToAim: false,
                 _damage: 25,
                 _shootingDelay: 0.3f,
-                _reloadTime: 5f,
+                _reloadTime: 2f,
                 _maxAmmo: 1,
                 _currAmmo: 1,
-                _explosionRadius: 15,
+                _explosionRadius: 10,
                 _explosionForce: 700
                 );
             changeSlot(temp, temp.slot);

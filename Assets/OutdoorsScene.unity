@@ -3623,7 +3623,7 @@ MonoBehaviour:
   CameraHolder: {fileID: 219838275}
   VelocityField: {fileID: 543117783}
   MouseSensitivitySlider: {fileID: 1343300304}
-  WalkSpeed: 5
+  WalkSpeed: 8
   MouseSensitivity: 0.3
   JumpSpeed: 10
   AirMultiplier: 0.2
