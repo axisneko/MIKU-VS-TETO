@@ -117,7 +117,7 @@ public class PlayerGameplay : MonoBehaviour
         }
         if (shootingType == "rocket")
         {
-            var rocket = Instantiate(Resources.Load<GameObject>("Prefabs/RoLa Rocket"), MainCameraObject.transform.position + MainCameraObject.transform.forward*1.5f, Quaternion.Euler(0, 0, 0));
+            var rocket = Instantiate(Resources.Load<GameObject>("Prefabs/RoLa Rocket"), MainCameraObject.transform.position + MainCameraObject.transform.forward*1.2f, Quaternion.Euler(0, 0, 0));
             rocket.GetComponent<Explosion>().radius = explosionRadius;
             rocket.GetComponent<Explosion>().force = explosionForce;
             rocket.transform.rotation = MainCameraObject.transform.rotation;
