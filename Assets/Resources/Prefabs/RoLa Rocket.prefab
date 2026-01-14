@@ -96,6 +96,9 @@ MonoBehaviour:
   explodeOnCollision: 1
   effectsPrefab: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
   effectsDisplayTime: 4
+  explosionLayers:
+    serializedVersion: 2
+    m_Bits: 136
 --- !u!136 &3747868638311660012
 CapsuleCollider:
   m_ObjectHideFlags: 0

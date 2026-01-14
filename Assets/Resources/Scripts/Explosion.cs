@@ -10,6 +10,7 @@ public class Explosion : MonoBehaviour
     [SerializeField] public bool explodeOnCollision = false;
     [SerializeField] public GameObject effectsPrefab;
     [SerializeField] public float effectsDisplayTime = 2.0f;
+    public LayerMask explosionLayers;
 
     private void Awake()
     {
@@ -43,7 +44,7 @@ public class Explosion : MonoBehaviour
 
     private void HandleDestruction()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, explosionLayers);
 
         foreach (Collider collider in colliders){
             Rigidbody rigidbody = collider.GetComponent<Rigidbody>();
@@ -55,7 +56,14 @@ public class Explosion : MonoBehaviour
             if (collider.tag == "hitbox_body")
             {
                 float damage = (radius-Vector3.Distance(transform.position, collider.transform.position))*force/radius/25;
-                collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(damage.ConvertTo<int>());
+                if (collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>() != null)
+                {
+                    collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(damage.ConvertTo<int>());
+                }
+                if (collider.transform.parent.transform.parent.GetComponent<PlayerHealth>() != null)
+                {
+                    collider.transform.parent.transform.parent.GetComponent<PlayerHealth>().dealDamage(damage.ConvertTo<int>());
+                }
             }
         }
     }

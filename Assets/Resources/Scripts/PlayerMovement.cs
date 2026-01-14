@@ -15,7 +15,6 @@ public class playerMovement : MonoBehaviour
     private InputAction m_jumpAction;
     private InputAction m_pauseActionPlayer;
     private InputAction m_pauseActionUI;
-    public TextMeshProUGUI VelocityField;
     public Slider MouseSensitivitySlider;
 
     private Vector2 m_moveAmt;

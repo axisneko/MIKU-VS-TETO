@@ -89,7 +89,7 @@ public class PlayerInventory : MonoBehaviour
             RocketWeapon temp = new RocketWeapon(
                 _name: "Rocket Launcher",
                 _icon: "",
-                _itemModelPath: "Models/RoLa/Cube",
+                _itemModelPath: "Models/RoLa/RoLa",
                 _slot: 2,
                 _isSprayAllowed: false,
                 _isAbleToAim: false,

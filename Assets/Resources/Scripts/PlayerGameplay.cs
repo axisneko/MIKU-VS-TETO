@@ -148,6 +148,10 @@ public class PlayerGameplay : MonoBehaviour
             {
                 currAmmo = maxAmmo;
                 ReloadTimerField.text = "";
+                if (GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot] is WeaponItem tempWeapon)
+                {
+                    tempWeapon.currAmmo = currAmmo;
+                }
             }
         }
     }
