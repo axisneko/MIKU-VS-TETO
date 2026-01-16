@@ -44,35 +44,38 @@ public class PlayerGameplay : MonoBehaviour
 
     private void Update()
     {
-        itemScroll = m_mouseScroll.ReadValue<Vector2>().y.ConvertTo<int>();
-
-        CurrentWeaponField.text = GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot].name;
-
-        if (currAmmo > 0 && reloadTimer <= 0 && isAbleToShoot && shootingTimer >= shootingDelay)
+        if (isAbleToShoot)
         {
-            if (isSprayAllowed && m_attackAction.phase.ToString() == "Performed")
-            {
-                Shoot();
-            }
-            if (!isSprayAllowed && m_attackAction.WasPressedThisFrame())
-            {
-                Shoot();
-            }
-        }
-        if (currAmmo < maxAmmo)
-        {
-            if (m_reloadAction.WasPressedThisFrame())
-            {
-                Reload();
-            }
-        }
+            itemScroll = m_mouseScroll.ReadValue<Vector2>().y.ConvertTo<int>();
 
-        if (m_spawnScarecrow.WasPressedThisFrame())
-        {
-            SpawnScarecrow();
-        }
+            CurrentWeaponField.text = GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot].name;
 
-        CheckItemScroll();
+            if (currAmmo > 0 && reloadTimer <= 0 && shootingTimer >= shootingDelay)
+            {
+                if (isSprayAllowed && m_attackAction.phase.ToString() == "Performed")
+                {
+                    Shoot();
+                }
+                if (!isSprayAllowed && m_attackAction.WasPressedThisFrame())
+                {
+                    Shoot();
+                }
+            }
+            if (currAmmo < maxAmmo)
+            {
+                if (m_reloadAction.WasPressedThisFrame())
+                {
+                    Reload();
+                }
+            }
+
+            if (m_spawnScarecrow.WasPressedThisFrame())
+            {
+                SpawnScarecrow();
+            }
+
+            CheckItemScroll();
+        }
         UpdateShootingTimer(Time.deltaTime);
         UpdateReloadTimer(Time.deltaTime);
         UpdateUI();

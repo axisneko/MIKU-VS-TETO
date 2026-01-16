@@ -10,6 +10,8 @@ public class playerMovement : MonoBehaviour
     public InputActionAsset InputActions;
     public GameObject CameraHolder;
 
+    public bool isAbleToMove;
+
     private InputAction m_moveAction;
     private InputAction m_lookAction;
     private InputAction m_jumpAction;
@@ -67,27 +69,37 @@ public class playerMovement : MonoBehaviour
 
     private void Update()
     {
-        m_moveAmt = m_moveAction.ReadValue<Vector2>();
-        m_lookAmt = m_lookAction.ReadValue<Vector2>();
+        if (isAbleToMove) {
+            m_moveAmt = m_moveAction.ReadValue<Vector2>();
+            m_lookAmt = m_lookAction.ReadValue<Vector2>();
 
-        grounded = Physics.CheckSphere(transform.position + new Vector3(0, 0.255f, 0), 0.34f, groundLayer);
-        MouseSensitivity = MouseSensitivitySlider.value;
-        //grounded = m_characterController.isGrounded;
+            grounded = Physics.CheckSphere(transform.position + new Vector3(0, 0.255f, 0), 0.34f, groundLayer);
+            MouseSensitivity = MouseSensitivitySlider.value;
+            //grounded = m_characterController.isGrounded;
 
-        if (m_jumpAction.phase.ToString() == "Performed")
-        {
-            Jump();
+            if (transform.position.y < -10)
+            {
+                GetComponent<PlayerHealth>().dealDamage(1);
+            }
+
+            if (m_jumpAction.phase.ToString() == "Performed")
+            {
+                Jump();
+            }
+
+            //SpeedControl();
+            DoGravity();
+            Rotating();
+            DisplayPause();
         }
-
-        //SpeedControl();
-        DoGravity();
-        Rotating();
-        DisplayPause();
     }
 
     private void FixedUpdate()
     {
-        Walking();
+        if (isAbleToMove)
+        {
+            Walking();
+        }
     }
 
     private void DisplayPause()
@@ -149,6 +161,13 @@ public class playerMovement : MonoBehaviour
     //    }
     //    VelocityField.text = m_rigidbody.linearVelocity.magnitude.ToString();
     //}
+
+    public void TeleportOnSpawn()
+    {
+        m_characterController.enabled = false;
+        gameObject.transform.position = new Vector3(0, 0.22f, 0);
+        m_characterController.enabled = true;
+    } 
 
     private void Rotating()
     {
