@@ -94,7 +94,7 @@ MonoBehaviour:
   delay: 0
   delayTimer: 0
   explodeOnCollision: 1
-  effectsPrefab: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  effectsPrefab: {fileID: 4144334127987022073, guid: b100a0349312b014bab4b9132ca0acf8, type: 3}
   effectsDisplayTime: 4
   explosionLayers:
     serializedVersion: 2

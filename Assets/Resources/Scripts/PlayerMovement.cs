@@ -12,14 +12,16 @@ public class playerMovement : MonoBehaviour
 
     public bool isAbleToMove;
 
-    private InputAction m_moveAction;
+    private InputAction m_walkAction;
     private InputAction m_lookAction;
     private InputAction m_jumpAction;
     private InputAction m_pauseActionPlayer;
     private InputAction m_pauseActionUI;
     public Slider MouseSensitivitySlider;
+    public Slider WalkSpeedSlider;
 
-    private Vector2 m_moveAmt;
+    private Vector3 moveDirection;
+    private Vector2 m_walkAmt;
     private Vector2 m_lookAmt;
     private Animator m_animator;
     private CharacterController m_characterController;
@@ -30,6 +32,7 @@ public class playerMovement : MonoBehaviour
     public float AirMultiplier = 0f;
     public float GroundDrag = 5;
     public float gravityForce = -30f;
+    public float walkAcceleration = 10f;
     public Vector3 velocity;
 
     public bool grounded;
@@ -56,7 +59,7 @@ public class playerMovement : MonoBehaviour
     }
     private void Awake()
     {
-        m_moveAction = InputSystem.actions.FindAction("Move");
+        m_walkAction = InputSystem.actions.FindAction("Move");
         m_lookAction = InputSystem.actions.FindAction("Look");
         m_jumpAction = InputSystem.actions.FindAction("Jump");
 
@@ -70,11 +73,12 @@ public class playerMovement : MonoBehaviour
     private void Update()
     {
         if (isAbleToMove) {
-            m_moveAmt = m_moveAction.ReadValue<Vector2>();
+            m_walkAmt = m_walkAction.ReadValue<Vector2>();
             m_lookAmt = m_lookAction.ReadValue<Vector2>();
 
             grounded = Physics.CheckSphere(transform.position + new Vector3(0, 0.255f, 0), 0.34f, groundLayer);
             MouseSensitivity = MouseSensitivitySlider.value;
+            WalkSpeed = WalkSpeedSlider.value;
             //grounded = m_characterController.isGrounded;
 
             if (transform.position.y < -10)
@@ -144,10 +148,10 @@ public class playerMovement : MonoBehaviour
 
     private void Walking()
     {
-        //m_animator.SetFloat("Speed", m_moveAmt.y);
-        var moveDirection = transform.forward * m_moveAmt.y + transform.right * m_moveAmt.x;
-        moveDirection = moveDirection * WalkSpeed * Time.deltaTime;
-        m_characterController.Move(moveDirection);
+        var walkDirection = transform.forward * m_walkAmt.y + transform.right * m_walkAmt.x;
+        var targetVelocity = walkDirection * WalkSpeed;
+        moveDirection = Vector3.Lerp(moveDirection, targetVelocity, walkAcceleration * Time.deltaTime);
+        m_characterController.Move(moveDirection * Time.deltaTime);
     }
 
     //private void SpeedControl()
