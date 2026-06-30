@@ -13,14 +13,14 @@ public class PlayerInventory : MonoBehaviour
     {
         getItem("ak47");
         getItem("RoLa");
-        Invoke("testfunc", 40f);
+        //Invoke("testfunc", 40f);
     }
 
     void equipWeapon()
     {
         if (items[currentSlot] is StandardWeapon equippingStandardWeapon)
         {
-            GetComponent<PlayerGameplay>().isAbleToShoot = true;
+            GetComponent<EntityGeneralMechanics>().isAbleToUseItems = true;
             GetComponent<PlayerGameplay>().isSprayAllowed = equippingStandardWeapon.isSprayAllowed;
             GetComponent<PlayerGameplay>().shootingType = "standard";
             GetComponent<PlayerGameplay>().shootingDelay = equippingStandardWeapon.shootingDelay;
@@ -41,7 +41,7 @@ public class PlayerInventory : MonoBehaviour
         }
         if (items[currentSlot] is RocketWeapon equippingRocketWeapon)
         {
-            GetComponent<PlayerGameplay>().isAbleToShoot = true;
+            GetComponent<EntityGeneralMechanics>().isAbleToUseItems = true;
             GetComponent<PlayerGameplay>().isSprayAllowed = equippingRocketWeapon.isSprayAllowed;
             GetComponent<PlayerGameplay>().shootingType = "rocket";
             GetComponent<PlayerGameplay>().shootingDelay = equippingRocketWeapon.shootingDelay;
@@ -72,12 +72,12 @@ public class PlayerInventory : MonoBehaviour
             StandardWeapon temp = new StandardWeapon(
                 _name: "AK-47",
                 _icon: "",
-                _itemModelPath: "Models/shotgun/Shotgun",
+                _itemModelPath: "Models/Ak rifle/Ak rifle",
                 _slot: 1,
                 _isSprayAllowed: true,
                 _isAbleToAim: false,
                 _damage: 9,
-                _shootingDelay: 0.1f,
+                _shootingDelay: 0.13f,
                 _reloadTime: 2f, 
                 _maxAmmo: 30,
                 _currAmmo: 30
@@ -146,7 +146,7 @@ public class PlayerInventory : MonoBehaviour
 
     void LetGunShoot()
     {
-        GetComponent<PlayerGameplay>().isAbleToShoot = true;
+        GetComponent<EntityGeneralMechanics>().isAbleToUseItems = true;
     }
 
     void testfunc()

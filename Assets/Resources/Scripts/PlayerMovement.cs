@@ -10,8 +10,6 @@ public class playerMovement : MonoBehaviour
     public InputActionAsset InputActions;
     public GameObject CameraHolder;
 
-    public bool isAbleToMove;
-
     private InputAction m_walkAction;
     private InputAction m_lookAction;
     private InputAction m_jumpAction;
@@ -72,7 +70,7 @@ public class playerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (isAbleToMove) {
+        if (GetComponent<EntityGeneralMechanics>().isAbleToMove) {
             m_walkAmt = m_walkAction.ReadValue<Vector2>();
             m_lookAmt = m_lookAction.ReadValue<Vector2>();
 
@@ -83,7 +81,7 @@ public class playerMovement : MonoBehaviour
 
             if (transform.position.y < -10)
             {
-                GetComponent<PlayerHealth>().dealDamage(1);
+                GetComponent<EntityGeneralMechanics>().dealDamage(1);
             }
 
             if (m_jumpAction.phase.ToString() == "Performed")
@@ -100,7 +98,7 @@ public class playerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isAbleToMove)
+        if (GetComponent<EntityGeneralMechanics>().isAbleToMove)
         {
             Walking();
         }
@@ -179,7 +177,7 @@ public class playerMovement : MonoBehaviour
         xRotation -= m_lookAmt.y * MouseSensitivity * Time.deltaTime * 50;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        CameraHolder.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        CameraHolder.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
         transform.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 

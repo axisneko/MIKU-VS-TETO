@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+     using Unity.VisualScripting;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
@@ -8,7 +8,6 @@ public class Explosion : MonoBehaviour
     [SerializeField] public float delay = 0f;
     [SerializeField] public float delayTimer = 0f;
     [SerializeField] public bool explodeOnCollision = false;
-    [SerializeField] public GameObject effectsPrefab;
     [SerializeField] public float effectsDisplayTime = 2.0f;
     public LayerMask explosionLayers;
 
@@ -56,13 +55,9 @@ public class Explosion : MonoBehaviour
             if (collider.tag == "hitbox_body")
             {
                 float damage = (radius-Vector3.Distance(transform.position, collider.transform.position))*force/radius/25;
-                if (collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>() != null)
+                if (collider.transform.parent.transform.parent.GetComponent<EntityGeneralMechanics>() != null)
                 {
-                    collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(damage.ConvertTo<int>());
-                }
-                if (collider.transform.parent.transform.parent.GetComponent<PlayerHealth>() != null)
-                {
-                    collider.transform.parent.transform.parent.GetComponent<PlayerHealth>().dealDamage(damage.ConvertTo<int>());
+                    collider.transform.parent.transform.parent.GetComponent<EntityGeneralMechanics>().dealDamage(damage);
                 }
             }
         }
@@ -70,12 +65,9 @@ public class Explosion : MonoBehaviour
 
     private void HandleEffects()
     {
-        if (effectsPrefab != null)
-        {
-            var scale = radius / 5f;
-            GameObject effect = Instantiate(effectsPrefab, transform.position, Quaternion.identity);
-            effect.transform.localScale = new Vector3(scale, scale, scale);
-            Destroy(effect, effectsDisplayTime);
-        }
+        var scale = radius / 5f;
+        GameObject effect = Instantiate(Resources.Load<GameObject>("Prefabs/RoLaExplosion"), transform.position, Quaternion.identity);
+        effect.transform.localScale = new Vector3(scale, scale, scale);
+        Destroy(effect, effectsDisplayTime); 
     }
 }

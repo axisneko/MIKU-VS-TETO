@@ -8,7 +8,6 @@ public class PlayerGameplay : MonoBehaviour
 {
     public float interactRange = 1000f;
 
-    public bool isAbleToShoot = true;
     public bool isSprayAllowed = false;
     public string shootingType = "standard";
     public int damage = 8;
@@ -27,7 +26,10 @@ public class PlayerGameplay : MonoBehaviour
     public TextMeshProUGUI AmmoCountField;
     public TextMeshProUGUI ReloadTimerField;
     public TextMeshProUGUI CurrentWeaponField;
+    public TextMeshProUGUI HealthField;
     public GameObject MainCameraObject;
+    public GameObject ItemHolderObject;
+    public GameObject LagFixerObject;
 
     private InputAction m_attackAction;
     private InputAction m_reloadAction;
@@ -44,7 +46,7 @@ public class PlayerGameplay : MonoBehaviour
 
     private void Update()
     {
-        if (isAbleToShoot)
+        if (GetComponent<EntityGeneralMechanics>().isAbleToUseItems)
         {
             itemScroll = m_mouseScroll.ReadValue<Vector2>().y.ConvertTo<int>();
 
@@ -86,13 +88,26 @@ public class PlayerGameplay : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(MainCameraObject.transform.position, MainCameraObject.transform.forward, out hit, interactRange))
         {
-            var tempScarecrow = Instantiate(Resources.Load<GameObject>("Prefabs/scarecrow"));
+            var tempScarecrow = Instantiate(Resources.Load<GameObject>("Prefabs/dummy(fatass)"));
             tempScarecrow.transform.position = hit.point;
         }
     }
 
     void Shoot()
     {
+        GameObject weaponModel = ItemHolderObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        if (weaponModel != null && weaponModel.GetComponent<Animator>() != null)
+        {
+            weaponModel.GetComponent<Animator>().SetTrigger("Shoot");
+        }
+
+        GameObject sleeve = Instantiate(Resources.Load<GameObject>("Models/Ak sleeve/Ak sleeve"));
+        sleeve.transform.position = MainCameraObject.transform.parent.transform.Find("sleeveOrientation").transform.position;
+        sleeve.transform.rotation = MainCameraObject.transform.parent.transform.Find("sleeveOrientation").transform.rotation;
+        var sleeveRigidbody = sleeve.GetComponent<Rigidbody>();
+        //sleeveRigidbody.AddExplosionForce(50, MainCameraObject.transform.parent.transform.Find("sleeveExplOrientation").transform.position, 5);
+        LagFixerObject.GetComponent<LagFixer>().AddSleeve(sleeve);
+
         shootingTimer = 0;
         currAmmo -= 1;
         if (GetComponent<PlayerInventory>().items[GetComponent<PlayerInventory>().currentSlot] is WeaponItem tempWeapon)
@@ -108,13 +123,13 @@ public class PlayerGameplay : MonoBehaviour
             {
                 Debug.Log(hit.collider.ToString());
 
-                if (hit.collider.tag == "hitbox_body")
+                if (hit.collider.tag == "hitbox_body" && hit.collider.transform.parent.transform.parent.GetComponent<EntityGeneralMechanics>().behaviourType != "player")
                 {
-                    hit.collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(damage);
+                    hit.collider.transform.parent.transform.parent.GetComponent<EntityGeneralMechanics>().dealDamage(damage);
                 }
                 if (hit.collider.tag == "hitbox_head")
                 {
-                    hit.collider.transform.parent.transform.parent.GetComponent<EnemyStandardMechanics>().dealDamage(2 * damage);
+                    hit.collider.transform.parent.transform.parent.GetComponent<EntityGeneralMechanics>().dealDamage(2 * damage);
                 }
             }
         }
@@ -125,7 +140,6 @@ public class PlayerGameplay : MonoBehaviour
             rocket.GetComponent<Explosion>().force = explosionForce;
             rocket.transform.rotation = MainCameraObject.transform.rotation;
             rocket.SetActive(true);
-            
         }
     }
 
@@ -133,7 +147,19 @@ public class PlayerGameplay : MonoBehaviour
     {
         reloadTimer = reloadTime;
     }
-    
+
+    public void Respawn()
+    {
+        GetComponent<EntityGeneralMechanics>().health = GetComponent<EntityGeneralMechanics>().maxHealth;
+        HealthField.text = GetComponent<EntityGeneralMechanics>().health.ToString();
+        GetComponent<playerMovement>().TeleportOnSpawn();
+        GetComponent<EntityGeneralMechanics>().isAbleToMove = true;
+        GetComponent<EntityGeneralMechanics>().isAbleToUseItems = true;
+        GetComponent<EntityGeneralMechanics>().PlayerDeathScreen.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void UpdateShootingTimer(float value)
     {
         if (shootingTimer <= shootingDelay)
